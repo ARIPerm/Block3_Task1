@@ -4,8 +4,7 @@
 
 enum class Month 
 {
-    Exit,
-    January,
+    January = 1,
     February,
     March,
     April,
@@ -16,13 +15,13 @@ enum class Month
     September,
     October,
     November,
-    December,
-    Error
+    December
 };
 
-Month enterNumber();
+int enterNumber();
 int checkNumberMonth(int number);
-std::string getMonth(Month number);
+Month getMonth(int number);
+std::string getStringMonth(Month number);
 
 int main()
 {
@@ -32,28 +31,38 @@ int main()
     bool isCheck = true;
     while (isCheck)
     {
-        Month value = enterNumber();
+        int value = enterNumber();
 
-        if (value == Month::Exit)
+        if (value == 0)
         {
             isCheck = false;
             continue;
         }
+        else if (value > 12)
+        {
+            std::cout << "Неправильный номер!" << std::endl;
+            continue;
+        }
 
-        std::string mounth = getMonth(value);
-        std::cout << mounth << std::endl;
+        Month month = getMonth(value);
+
+        std::string string = getStringMonth(month);
+        std::cout << string << std::endl;
     }
 
     std::cout << "До свидания" << std::endl;
 }
 
-Month enterNumber()
+int enterNumber()
 {
     std::cout << "Введите номер месяца: ";
     int number;
     std::cin >> number;
-    number = checkNumberMonth(number);
-    
+    return number;
+}
+
+Month getMonth(int number)
+{
     return static_cast<Month>(number);
 }
 
@@ -64,7 +73,7 @@ int checkNumberMonth(int number)
     return number;
 }
 
-std::string getMonth(Month number)
+std::string getStringMonth(Month number)
 {
     switch (number)
     {
@@ -103,9 +112,6 @@ std::string getMonth(Month number)
         break;
     case Month::December:
         return "Декабрь";
-        break;
-    case Month::Error:
-        return "Неправильный номер!";
         break;
     }
 }
